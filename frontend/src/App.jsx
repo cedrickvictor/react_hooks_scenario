@@ -1,50 +1,60 @@
 
-import { useState, useEffect, useMemo } from "react";
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+import {
+  BrowserRouter,
+  Link,
+  Routes,
+  Route,
+  NavLink
+} from "react-router-dom";
+
+import Home from "./Components/Home";
+import About from "./Components/About";
+import Contact from "./Components/Contact";
+import Dashboard from "./Components/Dashboard";
+import Login from "./Components/Login";
+import Register from "./Components/Register";
+
+import "./App.css";
 
 function App() {
-  const [color, setColor] = useState("black");
-  const [count, setCount] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-
-  const colors = useMemo(() => ["red", "blue", "orange", "purple"], []);
-
-  useEffect(() => {
-    if (!isRunning) return;
-
-    const interval = setInterval(() => {
-      setColor(colors[count % colors.length]);
-      setCount((prevCount) => prevCount + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isRunning, count, colors]);
-
-  const toggleColor = () => {
-    setIsRunning(!isRunning);
-  };
-
   return (
-    <div style={{
-      textAlign: "center",
-      padding: "50px"
-    }}>
-      <h1>Color Box</h1>
+    <BrowserRouter>
+      <div className="app">
+        <nav className="navbar">
+          <Link to="/" className="logo">
+            LEADING TVET SCHOOL
+          </Link>
 
-      <div style={{
-        width: "300px",
-        height: "200px",
-        backgroundColor: color,
-        margin: "20px auto",
-        borderRadius: "10px"
-      }} />
+          <div className="nav-links">
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/about">About</NavLink>
+            <NavLink to="/contact">Contact</NavLink>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/register" className="register-link">
+              Register
+            </NavLink>
+          </div>
+        </nav>
 
-      <p>Current Color: {color}</p>
-      <p>Color Number: {(count % colors.length) + 1} / {colors.length}</p>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </main>
 
-      <button onClick={toggleColor}>
-        {isRunning ? "Stop" : "Start"}
-      </button>
-    </div>
+        <footer className="footer">
+          <p>© 2026 LEADING Management System</p>
+        </footer>
+      </div>
+    </BrowserRouter>
   );
 }
 
